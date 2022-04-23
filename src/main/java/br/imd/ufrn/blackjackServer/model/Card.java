@@ -19,6 +19,10 @@ public class Card {
 		this.rank = rank;
 	}
 	
+	public String toString() {
+		return ("[" + rank + " de " + suit + "] (" + this.getValue()+")");
+	}
+	
 	public int getValue() {
 		return rank.value;
 	}

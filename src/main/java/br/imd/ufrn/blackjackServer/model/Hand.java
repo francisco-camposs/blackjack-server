@@ -31,4 +31,12 @@ public class Hand {
 			handValue+=card.getValue();
 		}
 	}
+	
+	public String toString() {
+		String cardsString = "";
+		for(Card card: cards) {
+			cardsString += card.toString() + " "; 
+		}
+		return cardsString;
+	}
 }
