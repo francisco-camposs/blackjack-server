@@ -1,4 +1,4 @@
-package br.imd.ufrn.blackjackServer.enums;
+package br.ufrn.imd.blackjackServer.enums;
 
 public enum Suit {
 	PAUS("PAUS"),

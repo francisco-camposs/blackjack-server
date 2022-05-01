@@ -1,9 +1,9 @@
-package br.imd.ufrn.blackjackServer;
+package br.ufrn.imd.blackjackServer;
 
 public class BlackjackServer {
 
 	public static void main(String[] args) {
-		System.out.println("Hello World");
+		
 	}
 
 }

@@ -1,4 +1,4 @@
-package br.imd.ufrn.blackjackServer.model;
+package br.ufrn.imd.blackjackServer.model;
 
 import lombok.Getter;
 import lombok.Setter;

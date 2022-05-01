@@ -1,12 +1,12 @@
-package br.imd.ufrn.blackjackServer;
+package br.ufrn.imd.blackjackServer.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.imd.ufrn.blackjackServer.model.Card;
-import br.imd.ufrn.blackjackServer.model.Dealer;
-import br.imd.ufrn.blackjackServer.model.Deck;
-import br.imd.ufrn.blackjackServer.model.Player;
+import br.ufrn.imd.blackjackServer.model.Card;
+import br.ufrn.imd.blackjackServer.model.Dealer;
+import br.ufrn.imd.blackjackServer.model.Deck;
+import br.ufrn.imd.blackjackServer.model.Player;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,13 +26,13 @@ public class Game {
 		this.deck = new Deck();
 	}
 	
-	public void addPlayer(Player player) {
+	public Boolean addPlayer(Player player) {
 		if(!verificarPlayers(player)) {
-			players.add(player);			
+			players.add(player);
+			return true;
 		}else {
-			
-			//Mensagem pro cliente
-			System.out.println("Player j· adicioando, tente outro nome!");
+			player.showMessage("Player j√° adicionado, por favor tente outro nome");
+			return false;
 		}
 	}
 
@@ -146,13 +146,6 @@ public class Game {
 	public static void main(String[] args) {
 		
 		Game game = new Game();
-
-		
-		//Json com o jogador
-		
-		Player player
-		
-		game.addPlayer();
 		
 	}
 	

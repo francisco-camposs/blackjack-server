@@ -1,9 +1,9 @@
-package br.imd.ufrn.blackjackServer.model;
+package br.ufrn.imd.blackjackServer.model;
 
 import java.util.Random;
 
-import br.imd.ufrn.blackjackServer.enums.Rank;
-import br.imd.ufrn.blackjackServer.enums.Suit;
+import br.ufrn.imd.blackjackServer.enums.Rank;
+import br.ufrn.imd.blackjackServer.enums.Suit;
 import lombok.Getter;
 import lombok.Setter;
 
