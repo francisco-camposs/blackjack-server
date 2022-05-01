@@ -1,5 +1,6 @@
 package br.ufrn.imd.blackjack.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -13,7 +14,7 @@ public class Hand {
 	private int handValue;
 	
 	public Hand() {
-		
+		this.cards = new ArrayList<>();
 	}
 	
 	public Hand(List<Card> cards) {
@@ -27,6 +28,7 @@ public class Hand {
 	}
 	
 	public void calculateHandValue() {
+		this.handValue = 0;
 		for (Card card: cards) {
 			handValue+=card.getValue();
 		}

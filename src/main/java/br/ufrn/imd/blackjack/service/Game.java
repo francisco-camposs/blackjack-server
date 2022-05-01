@@ -14,6 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Game {
+	
+	private boolean iniciado = false;
 	private Dealer dealer;
 	private Deck deck;
 	private List<Player> players;
