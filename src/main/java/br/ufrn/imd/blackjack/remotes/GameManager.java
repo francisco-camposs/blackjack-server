@@ -24,28 +24,6 @@ public class GameManager extends UnicastRemoteObject implements IGameServer {
 		this.game = new Game();
 		this.clients = new HashMap<>();
 		new RunGame().start();
-		
-		
-		/**
-		 
-		while(!game.isIniciado()) {
-			try {
-				System.out.println("Esperando começar");
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-		}
-		
-		System.out.println("Começou");
-		
-		while(game.isIniciado()) {
-			
-			
-			
-		}
-		 */
 	}
 	
 	@Override
@@ -57,7 +35,56 @@ public class GameManager extends UnicastRemoteObject implements IGameServer {
 		client.showMessage("Você foi cadastrado");
 	}
 
-	
+	@Override
+	public void getCommand(String name, String command) throws RemoteException{
+
+		System.out.println("Name: " + name + "   Command: " + command);
+		
+		for(Map.Entry<Player, IGameClient> client: clients.entrySet()) {
+			
+			if(client.getKey().getName().equals(name)) {
+				
+				String command_split[] = command.split(" ");
+				
+				switch(command_split[0]) {
+				case "1": // pull card
+					try {
+						client.getKey().getHand().addCard(game.getDeck().pullCard());
+						Thread.sleep(100);
+						client.getValue().showMessage("Suas cartas são: " + client.getKey().getHand().toString() + " Total: " + client.getKey().getHand().getHandValue());
+					} catch(RemoteException | InterruptedException e) {
+						e.printStackTrace();
+					}
+					break;
+				case "2": // to Bet
+					
+					int valor = Integer.parseInt(command_split[1]);
+					if (valor > 0) {
+						game.toBet(client.getKey(), valor);
+						client.getValue().showMessage("Sua aposta foi realizada");
+					}
+					break;
+				case "3": // to Stand
+					game.toStand(client.getKey());
+					break;
+				default:
+					break;
+				}
+			}
+			if(game.handPlayerValue(client.getKey()) > 21) {
+				game.setVinteUm(client.getKey());
+				game.toStand(client.getKey());
+			}
+			if(game.isPlayingRound(client.getKey())) {
+				//Espera outros jogadores
+				
+				if(game.roundPlayersOver()) {
+					//Encerra rodada, o delear joga com cada jogador.
+				}
+			}
+			
+		}
+	}
 	
 	private class RunGame extends Thread {
 		
@@ -65,6 +92,7 @@ public class GameManager extends UnicastRemoteObject implements IGameServer {
 			System.out.println("TÃ¡ indo");
 			Player playerToEx = null;
 			
+			//Esperando jogadores
 			int contador = 0;
 			while(true) {
 				try {
@@ -83,8 +111,10 @@ public class GameManager extends UnicastRemoteObject implements IGameServer {
 				}
 			}
 			
-			sendMessageAll("Començando o jogo, ");
+			sendMessageAll("Començando o jogo");
 
+			
+			//Distribuindo cartas para os jogadores
 			System.out.println("Começou");
 			for(Map.Entry<Player, IGameClient> client: clients.entrySet()) {
 				
@@ -99,6 +129,9 @@ public class GameManager extends UnicastRemoteObject implements IGameServer {
 					e.printStackTrace();
 				}
 			}
+			
+			
+			
 		}	
 	}
 	
@@ -118,7 +151,7 @@ public class GameManager extends UnicastRemoteObject implements IGameServer {
 				
 				for(Map.Entry<Player, IGameClient> client: clients.entrySet()) {
 					try {
-						client.getValue().showMessage(message + client.getKey().getName());
+						client.getValue().showMessage(message + ", " + client.getKey().getName());
 					} catch(RemoteException e) {
 						e.printStackTrace();
 					}
@@ -134,11 +167,12 @@ public class GameManager extends UnicastRemoteObject implements IGameServer {
 			
 			for(Map.Entry<Player, IGameClient> client: clients.entrySet()) {
 				try {
-					client.getValue().showMessage(string + client.getKey().getName());
+					client.getValue().showMessage(string + ", " + client.getKey().getName());
 				} catch(RemoteException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
+	
 }

@@ -21,6 +21,7 @@ public class Game {
 	private List<Player> players;
 	private int[] bets = {0,0,0,0};
 	private boolean[] ready = {false, false, false, false};
+	private boolean[] vinteUm = {false, false, false, false};
 	
 	public Game() {
 		this.players = new ArrayList<>();
@@ -72,6 +73,10 @@ public class Game {
 		ready[players.indexOf(player)] = true;
 	}
 	
+	public void setVinteUm(Player player) {
+		vinteUm[players.indexOf(player)] = true;
+	}
+	
 	//See hand
 	public void getHand(Player player) {
 		for(Player p: players) {
@@ -83,15 +88,26 @@ public class Game {
 		}
 	}
 	
+	public boolean roundPlayersOver() {
+		for(boolean bool: ready) {
+			if(!bool) return false;
+		}
+		return true;
+	}
+	
+	public boolean isPlayingRound(Player player) {
+		return !ready[players.indexOf(player)];
+	}
+	
 	//See hand value
-	public void handPlayerValue(Player player) {
+	public int handPlayerValue(Player player) {
 		for(Player p: players) {
 			if(player.getName().equals(p.getName())) {
-				int value = p.getHand().getHandValue();
+				return p.getHand().getHandValue();
 				
-				//Comunicar cliente
 			}
 		}
+		return -1;
 	}
 	
 	public void handVerify(Player player) {
